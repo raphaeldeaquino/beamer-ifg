@@ -1,0 +1,94 @@
+\section{Exemplos de texto} % Seções são adicionadas para organizar sua apresentação em blocos discretos, todas as seções e subseções são automaticamente enviadas para o sumário como uma visão geral da apresentação, mas NÃO são exibidas na apresentação como slides separados
+
+%------------------------------------------------
+
+\subsection{Parágrafos e listas}
+
+\begin{frame}
+	\frametitle{Parágrafos de texto}
+	
+	Sed iaculis \alert{dapibus gravida}. Morbi sed tortor erat, nec interdum arcu. Sed id lorem lectus. Quisque viverra augue id sem ornare non aliquam nibh tristique. Aenean in ligula nisl. Nulla sed tellus ipsum. Donec vestibulum ligula non lorem vulputate fermentum accumsan neque mollis.
+	
+	\bigskip % Espaço em branco vertical
+	
+	% Quote example
+	\begin{quote}
+		Sed diam enim, sagittis nec condimentum sit amet, ullamcorper sit amet libero. Aliquam vel dui orci, a porta odio.\\
+		--- Someone, somewhere\ldots
+	\end{quote}
+	
+	\bigskip % Espaço em branco vertical
+	
+	Nullam id suscipit ipsum. Aenean lobortis commodo sem, ut commodo leo gravida vitae. Pellentesque vehicula ante iaculis arcu pretium rutrum eget sit amet purus. Integer ornare nulla quis neque ultrices lobortis.
+\end{frame}
+
+%------------------------------------------------
+
+\begin{frame}
+	\frametitle{Listas}
+	\framesubtitle{Marcadores e listas numeradas} % Legenda opcional
+	
+	\begin{itemize}
+		\item Lorem ipsum dolor sit amet, consectetur adipiscing elit
+		\item Aliquam blandit faucibus nisi, sit amet dapibus enim tempus
+		\begin{itemize}
+			\item Lorem ipsum dolor sit amet, consectetur adipiscing elit
+			\item Nam cursus est eget velit posuere pellentesque
+		\end{itemize}
+		\item Nulla commodo, erat quis gravida posuere, elit lacus lobortis est, quis porttitor odio mauris at libero
+	\end{itemize}
+	
+	\bigskip % Espaço em branco vertical
+	
+	\begin{enumerate}
+		\item Nam cursus est eget velit posuere pellentesque
+		\item Vestibulum faucibus velit a augue condimentum quis convallis nulla gravida 
+	\end{enumerate}
+\end{frame}
+
+%------------------------------------------------
+
+\subsection{Blocos}
+
+\begin{frame}
+	\frametitle{Blocos de texto destacado}
+	
+	\begin{block}{Título do bloco}
+		Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer lectus nisl, ultricies in feugiat rutrum, porttitor sit amet augue.
+	\end{block}
+	
+	\begin{exampleblock}{Exemplo de título de bloco}
+		Aliquam ut tortor mauris. Sed volutpat ante purus, quis accumsan.
+	\end{exampleblock}
+	
+	\begin{alertblock}{Título do bloco de alerta}
+		Pellentesque sed tellus purus. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos.
+	\end{alertblock}
+	
+	\begin{block}{} % Bloco sem título
+		Suspendisse tincidunt sagittis gravida. Curabitur condimentum, enim sed venenatis rutrum, ipsum neque consectetur orci.
+	\end{block}
+\end{frame}
+
+%------------------------------------------------
+
+\subsection{Colunas}
+
+\begin{frame}
+	\frametitle{Múltiplas Colunas}
+	\framesubtitle{Subtítulo} % Subtítulo opcional
+	
+	\begin{columns}[c] % A opção "c" especifica o alinhamento vertical centralizado enquanto a opção "t" é usada para o alinhamento vertical superior
+		\begin{column}{0.45\textwidth} % Largura da coluna esquerda
+			\textbf{Cabeçalho}
+			\begin{enumerate}
+				\item Afirmação
+				\item Explicação
+				\item Exemplo
+			\end{enumerate}
+		\end{column}
+		\begin{column}{0.5\textwidth} % Right column width
+			Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer lectus nisl, ultricies in feugiat rutrum, porttitor sit amet augue. Aliquam ut tortor mauris. Sed volutpat ante purus, quis accumsan dolor.
+		\end{column}
+	\end{columns}
+\end{frame}

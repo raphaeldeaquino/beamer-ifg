@@ -1,0 +1,31 @@
+%------------------------------------------------
+
+\section{Referências}
+
+\begin{frame}
+	\frametitle{Citando referências}
+	
+	Um exemplo do comando \texttt{\textbackslash cite} para citar na apresentação:
+	
+	\bigskip % Vertical whitespace
+	
+	Esta afirmação requer citação \cite{p1,p2}.
+\end{frame}
+
+\begin{frame} % Use [allowframebreaks] to allow automatic splitting across slides if the content is too long
+	\frametitle{Referências}
+	
+	\begin{thebibliography}{99} % Beamer does not support BibTeX so references must be inserted manually as below, you may need to use multiple columns and/or reduce the font size further if you have many references
+		\footnotesize % Reduce the font size in the bibliography
+		
+		\bibitem[Smith, 2022]{p1}
+			John Smith (2022)
+			\newblock Publication title
+			\newblock \emph{Journal Name} 12(3), 45 -- 678.
+			
+		\bibitem[Kennedy, 2023]{p2}
+			Annabelle Kennedy (2023)
+			\newblock Publication title
+			\newblock \emph{Journal Name} 12(3), 45 -- 678.
+	\end{thebibliography}
+\end{frame}

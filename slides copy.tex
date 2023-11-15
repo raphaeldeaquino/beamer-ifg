@@ -1,0 +1,863 @@
+\documentclass[compress]{beamer}
+
+\usepackage[english,portuguese,brazil]{babel}
+\usepackage[T1]{fontenc} 
+%\usepackage[ansinew]{inputenc} 
+\usepackage[latin1]{inputenc}  
+\usepackage{graphicx}
+\usepackage{longtable}
+\usepackage{float}
+\usepackage{fancyvrb}
+\usepackage{url} 
+\usepackage[vlined,titlenumbered,algo2e,ruled,portuguese]{algorithm2e} 
+\usepackage{indentfirst}
+\usepackage{subfigure}
+\usepackage[bars]{beamerthemetree}  
+\usepackage{color}
+\usepackage{wallpaper}
+\usepackage{eso-pic} 
+\usepackage{pifont}
+\usepackage{listings}
+\usepackage{etoolbox}
+\usepackage{xcolor,colortbl}
+\usepackage{tikz}
+\usetikzlibrary{arrows,shapes,snakes,automata,backgrounds,petri,matrix,shadows.blur,shapes.symbols,shadows,positioning,decorations.pathreplacing,fadings,fit,calc,shadows}
+\usepackage{tikzscale}
+\usepackage{array,booktabs}
+\usepackage{complexity}
+\usepackage{forest}
+\usepackage{epstopdf}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{rotating}
+\usepackage{wasysym}
+\usepackage{tabularx}
+\usepackage{booktabs}
+\usepackage{multirow}
+\usepackage{makecell}
+
+%\usepackage[bgadd]{background}
+
+\usetheme{Antibes}
+%\usepackage{times}
+
+%-------------------Themas----------------------
+%\usepackage{beamerthemeBerkeley}
+%\usepackage{beamerthemeboxes}
+%\usepackage{beamerthemedefault}
+%\usepackage{beamerthemeGoettingen} 
+%\usepackage{beamerthemeJuanLesPins}
+%\usepackage{beamerthemeMalmoe}
+%\usepackage{beamerthemePaloAlto}
+%\usepackage{beamerthemeSingapore}
+%\usepackage{beamerthemeAntibes}
+%\usepackage{beamerthemeBerlin}
+%\usepackage{beamerthemeCopenhagen}
+%\usepackage{beamerthemeDresden} % bolinhas
+%\usepackage{beamerthemeHannover}
+%\usepackage{beamerthemeLuebeck}
+%\usepackage{beamerthemeMarburg} % lado
+%\usepackage{beamerthemePittsburgh}
+%\usepackage{beamerthemeSzeged}
+%\usepackage{beamerthemeBergen}
+%\usepackage{beamerthemeBoadilla}
+%\usepackage{beamerthemeDarmstadt}
+%\usepackage{beamerthemeFrankfurt}
+%\usepackage{beamerthemeIlmenau}
+%\usepackage{beamerthemeMadrid}
+%\usepackage{beamerthemeMontpellier}
+%\usepackage{beamerthemeRochester}
+%%\usepackage{beamerthemeWarsaw}
+%-----------------------------------------------
+
+%-------------Esquemas de cores-----------------
+%\usecolortheme{albatross}       % azul
+%\usecolortheme{fly}             % cinza
+%\usecolortheme{beetle}          % cinza
+%\usecolortheme{dolphin}         % roxo-claro
+%\usecolortheme{lily}            % azul
+%\usecolortheme{crane}           % laranjado
+%\usecolortheme{dove}            % branco
+%\usecolortheme{rose}            % azul?
+%%\usecolortheme{sidebartab}
+%\usecolortheme{seagull}         % cinza
+%\usecolortheme{orchid}          % azul
+%\usecolortheme{seahorse}        % roxo-claro
+%\usecolortheme{whale}
+%----------------------------------------------
+
+%-------------Tema-----------------------------
+ \usetheme{Warsaw}
+%-------------Esquema de cores-----------------
+ \usecolortheme{orchid}
+%----------------------------------------------
+
+\usefonttheme{professionalfonts}
+%\hypersetup{pdfpagemode=FullScreen}
+%\setbeamertemplate{footline}[frame number]
+%\setbeamertemplate{navigation symbols}{}
+
+%\addtobeamertemplate{navigation symbols}{}{%
+%    \usebeamerfont{footline}%
+%    \usebeamercolor[fg]{footline}%
+%    \hspace{1em}%
+%    \insertframenumber/\inserttotalframenumber
+%}
+
+\expandafter\def\expandafter\insertshorttitle\expandafter{%
+  \insertshorttitle\hfill%
+  \insertframenumber\,/\,\inserttotalframenumber}
+  
+\makeatletter
+\renewcommand{\itemize}[1][]{%
+  \beamer@ifempty{#1}{}{\def\beamer@defaultospec{#1}}%
+  \ifnum \@itemdepth >2\relax\@toodeep\else
+    \advance\@itemdepth\@ne
+    \beamer@computepref\@itemdepth% sets \beameritemnestingprefix
+    \usebeamerfont{itemize/enumerate \beameritemnestingprefix body}%
+    \usebeamercolor[fg]{itemize/enumerate \beameritemnestingprefix body}%
+    \usebeamertemplate{itemize/enumerate \beameritemnestingprefix body begin}%
+    \list
+      {\usebeamertemplate{itemize \beameritemnestingprefix item}}
+      {%
+        \setlength\topsep{1pt}%NEW
+        \setlength\partopsep{0pt}%NEW
+        \setlength\itemsep{0pt}%NEW
+        \def\makelabel##1{%
+          {%
+            \hss\llap{{%
+                \usebeamerfont*{itemize \beameritemnestingprefix item}%
+                \usebeamercolor[fg]{itemize \beameritemnestingprefix item}##1}}%
+          }%
+        }%
+      }
+  \fi%
+  \beamer@cramped%
+  \raggedright%
+  \beamer@firstlineitemizeunskip%
+}
+\makeatother
+
+\newcommand\Wider[2][3em]{%
+\makebox[\linewidth][c]{%
+  \begin{minipage}{\dimexpr\textwidth+#1\relax}
+  \raggedright#2
+  \end{minipage}%
+  }%
+}
+
+\newcommand{\semitransp}[2][35]{\textcolor{fg!#1}#2}
+
+%\setbeamercolor{frame}{fg=black,bg=white}
+\title[Defesa de Tese de Doutorado]{Implantação Eficiente de Múltiplas Coreografias de Serviços em Nuvens Híbridas}
+\author[Gomes, R. A.]{\textbf{Raphael de Aquino Gomes\\}}
+%\institute[INF/UFG]{Tese apresentada ao Programa de Pós-Graduação do \\
+%Instituto de Informática da Universidade Federal de Goiás, \\
+%como requisito parcial para obtenção do título de Doutor \\
+%em Ciência da Computação\newline \\ Orientador: Dr. Fábio Moreira Costa \\ Co-Orientador: Dr. Ricardo Couto Antunes da Rocha}
+\institute[INF/UFG]{Orientador: Prof. Dr. Fabio Moreira Costa \\ Co-Orientador: Prof. Dr. Ricardo Couto Antunes da Rocha}
+%\titlegraphic{
+	%\includegraphics[width=0.25\textwidth]{./fig-slides/NovoLogoINF.jpg}
+%	\includegraphics[width=0.20\textwidth]{./fig-slides/ufgh.jpg}
+%	\hspace{2cm}
+%	\includegraphics[width=0.20\textwidth]{./fig-slides/ufms.eps}
+%	\includegraphics[width=0.18\textwidth]{./fig-slides/inria.jpg}
+%	\includegraphics[width=0.21\textwidth]{./fig-slides/ifg.jpg}
+%	\includegraphics[width=0.18\textwidth]{./fig-slides/fapeg.jpg}
+%	\includegraphics[width=0.18\textwidth]{./fig-slides/cnpq.jpg}
+%}
+\date{Goiania -- GO, 06 de Abril de 2017}
+
+%\pgfdeclareimage[height=0.5cm]{./fig-slides/NovoLogoINF}{./fig-slides/NovoLogoINF}
+%\logo{\pgfuseimage{./fig-slides/NovoLogoINF}}
+
+\definecolor{maroon}{rgb}{0.5,0,0}
+\definecolor{darkgreen}{rgb}{0,0.5,0}
+\definecolor{darkblue}{rgb}{0.0,0.0,0.5}
+\definecolor{gray}{rgb}{0.4,0.4,0.4}
+\definecolor{darkgray}{rgb}{0.3,0.3,0.3}
+
+\definecolor{pblue}{rgb}{0.13,0.13,1}
+\definecolor{pgreen}{rgb}{0,0.5,0}
+\definecolor{pred}{rgb}{0.9,0,0}
+\definecolor{pgrey}{rgb}{0.46,0.45,0.48}
+\definecolor{ppurple}{RGB}{127,0,85}
+
+\lstdefinelanguage{constraint}
+{
+  basicstyle=\ttfamily\linespread{1.1}\bfseries\fontsize{6.5}{7.5}\selectfont\color{darkgray},
+  commentstyle=\color{darkgreen},
+  morestring=\color{blue}[b]",
+  morestring=[s]{>}{<},
+  morecomment=[s]{<?}{?>},
+  identifierstyle=\color{maroon},
+  keywordstyle=\color{darkblue},
+  morekeywords={LOCATION,ASCENDENT,COST,CLOUD_PROVIDER_REPUTATION}% list your attributes here
+}
+
+\newtoggle{InString}{}% Keep track of if we are within a string
+\togglefalse{InString}% Assume not initally in string
+
+\newcommand*{\ColorIfNotInString}[1]{\iftoggle{InString}{#1}{\color{maroon}#1}}%
+\newcommand*{\ProcessQuote}[1]{#1\iftoggle{InString}{\global\togglefalse{InString}}{\global\toggletrue{InString}}}%
+\lstset{literate=%
+    {"}{{{\ProcessQuote{"}}}}1% Disable coloring within double quotes
+    {'}{{{\ProcessQuote{'}}}}1% Disable coloring within single quote
+    {0}{{{\ColorIfNotInString{0}}}}1
+    {1}{{{\ColorIfNotInString{1}}}}1
+    {2}{{{\ColorIfNotInString{2}}}}1
+    {3}{{{\ColorIfNotInString{3}}}}1
+    {4}{{{\ColorIfNotInString{4}}}}1
+    {5}{{{\ColorIfNotInString{5}}}}1
+    {6}{{{\ColorIfNotInString{6}}}}1
+    {7}{{{\ColorIfNotInString{7}}}}1
+    {8}{{{\ColorIfNotInString{8}}}}1
+    {9}{{{\ColorIfNotInString{9}}}}1
+}
+
+\newcommand{\inputTikZ}[2]{%  
+     \scalebox{#1}{\input{#2}}  
+}
+
+\tikzset{visib/.style={rectangle,text opacity=0.9, width=#1}}
+\tikzset{invisib/.style={rectangle,text opacity=0.2, width=#1}}
+
+\newenvironment{myfancyblock}%
+{\begin{center}\begin{tikzpicture}}%
+{\end{tikzpicture}\end{center}}%
+
+\newcommand{\opaqueblock}[4]{
+\node<#1>[#2=#3] (X) {#4};
+}
+
+% \AtBeginSection[]{
+%   \begin{frame}
+%   \vfill
+%   \centering
+%   \begin{beamercolorbox}[sep=8pt,center,shadow=true,rounded=true]{title}
+%     \usebeamerfont{title}\insertsectionhead\par%
+%   \end{beamercolorbox}
+%   \vfill
+%   \end{frame}
+% }
+
+\AtBeginSection{\frame{\sectionpage}}
+
+\setbeamertemplate{section page}
+{
+    \begin{centering}
+    \begin{beamercolorbox}[sep=12pt,center]{part title}
+    \usebeamerfont{section title}\insertsection\par
+    \end{beamercolorbox}
+    \end{centering}
+    \addtocounter{page}{-1}
+}
+
+\newcommand{\backupbegin}{
+   \newcounter{finalframe}
+   \setcounter{finalframe}{\value{framenumber}}
+}
+\newcommand{\backupend}{
+   \setcounter{framenumber}{\value{finalframe}}
+}
+
+\begin{document} 
+
+%\pgfdeclareimage[height=1.4cm]{logo}{./fig-slides/NovoLogoINF.jpg}
+%\logo{\pgfuseimage{logo}}
+
+%\setbeamertemplate{footline}[frame number]
+
+
+\frame{\titlepage}
+
+\begin{frame}<beamer>[shrink]
+\frametitle{Agenda}
+\tableofcontents[hideallsubsections]
+\end{frame}
+
+%%-------------------------------------------------------------%
+%\AtBeginSection[]
+%{
+%\begin{frame}<beamer>
+%\frametitle{Sum�rio}
+%\tableofcontents[currentsection, hideallsubsections]
+%\end{frame}
+%}
+%%-------------------------------------------------------------%
+
+%%-------------------------------------------------------------%
+%\section[\thesection]{Introdu��o}
+%\frame
+%{
+% \frametitle{Introdu��o}
+%\begin{block}{Implanta��o de M�ltiplas Coreografias de Servi�os}
+%\begin{itemize}
+%\setlength{\itemsep}{5pt}
+%\item Satisfa��o de restri��es n�o-funcionais.
+%\item Compartilhamento de servi�os:
+%\begin{itemize}
+%\setlength{\itemsep}{5pt}
+%\item diferentes pap�is.
+%\item degrada��o da QoS. 
+%\end{itemize}
+%\item Balanceamento das contribui��es nas restri��es fim-a-fim. 
+%\item Estimar a capacidade de recurso e decidir onde alocar essa capacidade. 
+%\end{itemize}
+%\end{block}
+%
+%}
+%%-------------------------------------------------------------%
+
+%-------------------------------------------------------------%
+\section[\thesection]{Defini��o do Problema}
+\frame
+{
+ \frametitle{Defini��o do Problema}
+\begin{quote}
+\textit{Dado um \textcolor{blue}{conjunto de coreografias} de servi�os, com poss�veis \textcolor{blue}{compartilhamentos} de opera��es entre elas e \textcolor{blue}{restri��es n�o-funcionais} associadas, deve-se decidir a configura��o ideal de recursos para implantar cada servi�o e mapear esses recursos para ambientes de nuvem apropriados. A estimativa, o provisionamento de recursos e a implanta��o de servi�os devem ser realizados de maneira \textcolor{blue}{aut�noma} e \textcolor{blue}{eficiente}.\\}
+\end{quote}
+}
+%-------------------------------------------------------------%
+
+%-------------------------------------------------------------%
+\frame
+{
+ \frametitle{Defini��o do Problema}
+\begin{block}{Quest�es de Pesquisa}
+\begin{itemize}
+\item \textbf{QP1:} \textit{Como automatizar a implanta��o de \textcolor{blue}{m�ltiplas coreografias de servi�os} visando � satisfa��o de restri��es com uso \textcolor{blue}{eficiente} de recursos?}\\~\\
+\item \textbf{QP2:} \textit{Quais fatores e m�todos devem ser considerados para \textcolor{blue}{decidir a configura��o de recursos} adequada para implantar um conjunto de coreografias de servi�os, dada sua especifica��o e restri��es n�o-funcionais associadas?}\\~\\
+\item \textbf{QP3:} \textit{Como abstrair a estimativa e a sele��o de recursos em um ambiente de \textcolor{blue}{nuvem h�brido} com infraestrutura privada e m�ltiplos provedores de nuvem p�blica?} 
+\end{itemize}
+\end{block}
+}
+%-------------------------------------------------------------%
+
+% %-------------------------------------------------------------%
+% \subsection[\textbullet]{Objetivos}
+% \frame[shrink]
+% {
+%  \frametitle{Introdu��o}
+%  \framesubtitle{Objetivos}
+% \begin{itemize}
+% \setlength{\itemsep}{5pt}
+% \item investigar e propor formas de modelagem de um conjunto de coreografias de servi�os;
+% \item prover mecanismos para a representa��o dos tipos dispon�veis de recursos;
+% \item investigar e propor mecanismos para estimar a capacidade adequada de recursos necess�rios para implantar um conjunto de coreografias;
+% \item investigar e propor mecanismos para sele��o de recursos em uma nuvem h�brida;
+% \item definir uma arquitetura que permita a implanta��o eficiente e aut�noma de m�ltiplas coreografias de servi�os usando os mecanismos propostos;
+% \item construir um prot�tipo funcional da arquitetura definida; e
+% \item avaliar propriedades de efetividade e desempenho dos mecanismos propostos.
+% \end{itemize}
+% 
+% }
+% %-------------------------------------------------------------%
+
+% %-------------------------------------------------------------%
+% \section[\thesection]{Estado da Arte}
+% \frame[shrink]
+% {
+%  \frametitle{Estado da Arte}
+% \definecolor{darkgreen}{RGB}{87,157,28}
+% \begin{columns}[T] % align columns
+% \begin{column}{.4\textwidth}
+% \includegraphics[width=\textwidth]{./fig-slides/pros.eps} 
+% %\color{darkgreen}
+% \scriptsize
+% \begin{itemize}
+% \setlength{\itemsep}{5pt}
+% \item[\color{darkgreen}\ding{228}] Ferramentas espec�ficas para um determinado provedor.
+% \item[\color{darkgreen}\ding{228}] Modelagem do processo de neg�cio.
+% \item[\color{darkgreen}\ding{228}] QoS.
+% 
+% ~
+% 
+% ~
+% \item[\color{darkgreen}\ding{228}] Restri��es locais.
+% \item[\color{darkgreen}\ding{228}] Sele��o de recursos.
+% 
+% ~
+% 
+% ~
+% 
+% ~
+% \item[\color{darkgreen}\ding{228}] Independ�ncia de aplica��o e de ambiente de nuvem.
+% \end{itemize}
+% \end{column}%
+% \hfill%
+% \definecolor{darkred}{RGB}{197,0,11}
+% \begin{column}{.6\textwidth}
+% \includegraphics[width=\textwidth]{./fig-slides/cons2.eps} 
+% \scriptsize
+% \begin{itemize}
+% \setlength{\itemsep}{5pt}
+% \item[\color{darkred}\ding{228}] Representa��o e implanta��o conjunta de m�ltiplos processos de neg�cio.
+% \item[\color{darkred}\ding{228}] Modelagem de restri��es n�o-funcionais.
+% 
+% ~
+% \item[\color{darkred}\ding{228}] Restri��es relacionadas ao ambiente de implanta��o (localidade do recurso, reputa��o do provedor, etc.).
+% \item[\color{darkred}\ding{228}] Restri��es fim-a-fim.
+% \item[\color{darkred}\ding{228}] Estimativa de recursos.
+% \item[\color{darkred}\ding{228}] Descoberta de recursos.
+% \item[\color{darkred}\ding{228}] Aloca��o de recursos.
+% \item[\color{darkred}\ding{228}] Manipula��o de modelos de recursos.
+% \end{itemize}
+% \end{column}%
+% \end{columns}
+% }
+% %-------------------------------------------------------------%
+
+
+%%-------------------------------------------------------------%
+%%\section[\thesection]{Representa��o de Coreografias de Servi�os com Restri��es N�o-Funcionais}
+%\section[\thesection]{Modelos Utilizados na Abordagem}
+%\frame
+%{
+% \frametitle{Modelos Utilizados na Abordagem}
+%\begin{block}{Representa��o de:}
+%\footnotesize
+%\begin{itemize}
+% \item restri��es n�o-funcionais; 
+% \item coreografias de servi�os;
+% \item recursos.
+%\end{itemize}
+%\end{block} 
+%\vspace{0.8cm}
+%\begin{itemize}
+% \item Necessidades exploradas na representa��o:
+%\begin{itemize}
+% \item Possibilitar a modelagem expl�cita de \textcolor{blue}{restri��es n�o-funcionais}.
+% \item Tornar a abordagem compat�vel com \textcolor{blue}{outras linguagens}.
+% \item Facilitar a identifica��o de \textcolor{blue}{depend�ncias} entre os servi�os e do impacto de seu \textcolor{blue}{compartilhamento}.
+% \item Diminuir o \textcolor{blue}{tempo} de processamento da s�ntese.
+%\end{itemize}
+%\end{itemize}
+%}
+%%-------------------------------------------------------------%
+
+% %-------------------------------------------------------------%
+% \subsection[\textbullet]{Representa��o de Restri��es N�o-Funcionais}
+% \frame
+% {
+%  \frametitle{Representa��o de Restri��es N�o-Funcionais}
+%  \framesubtitle{Taxonomia de Restri��es.}
+% \begin{figure}[!htbp]
+%     \includegraphics<1>[width=\textwidth]{./fig-slides/taxonomiaRest1.eps} 
+%     \includegraphics<2>[width=\textwidth]{./fig-slides/taxonomiaRest2.eps} 
+%     \label{fig:taxonomiaRest1}
+% \end{figure}
+% }
+% %-------------------------------------------------------------%
+
+%-------------------------------------------------------------%
+\section[\thesection]{Modelos Utilizados na Abordagem}
+\frame
+{
+ \frametitle{Modelos Utilizados na Abordagem}
+\begin{block}{Representa��o de:}
+\footnotesize
+\begin{itemize}
+ \item restri��es n�o-funcionais;
+ \item[\textcolor{fg!20}{\textbullet}] \semitransp[20]{{coreografias de servi�os;}}
+ \item[\textcolor{fg!20}{\textbullet}] \semitransp[20]{{recursos.}}
+\end{itemize}
+\end{block} 
+\vspace{0.8cm}
+\begin{itemize}
+ \item Necessidades exploradas na representa��o:
+\begin{itemize}
+ \item Possibilitar a modelagem expl�cita de restri��es n�o-funcionais.
+ \item[\textcolor{fg!20}{\textbullet}] \semitransp[20]{{Tornar a abordagem compat�vel com outras linguagens.}}
+ \item[\textcolor{fg!20}{\textbullet}] \semitransp[20]{{Facilitar a identifica��o de depend�ncias entre os servi�os e do impacto de seu compartilhamento.}}
+ \item[\textcolor{fg!20}{\textbullet}] \semitransp[20]{{Diminuir o tempo de processamento da s�ntese.}}
+\end{itemize}
+\end{itemize}
+}
+
+%-------------------------------------------------------------%
+\frame
+{
+ \frametitle{Modelos Utilizados na Abordagem}
+\begin{block}{Representa��o de:}
+\footnotesize
+\begin{itemize}
+ \item[\textcolor{fg!20}{\textbullet}] \semitransp[20]{{restri��es n�o-funcionais;}}
+ \item coreografias de servi�os;
+ \item[\textcolor{fg!20}{\textbullet}] \semitransp[20]{{recursos.}}
+\end{itemize}
+\end{block} 
+\vspace{0.8cm}
+\begin{itemize}
+ \item Necessidades exploradas na representa��o:
+\begin{itemize}
+ \item[\textcolor{fg!20}{\textbullet}] \semitransp[20]{{Possibilitar a modelagem expl�cita de restri��es n�o-funcionais.}}
+ \item Tornar a abordagem compat�vel com outras linguagens.
+ \item Facilitar a identifica��o de depend�ncias entre os servi�os e do impacto de seu compartilhamento.
+ \item[\textcolor{fg!20}{\textbullet}] \semitransp[20]{{Diminuir o tempo de processamento da s�ntese.}}
+\end{itemize}
+\end{itemize}
+}
+%-------------------------------------------------------------%
+
+% %-------------------------------------------------------------%
+% \subsection[\textbullet]{Gera��o do Grafo de Depend�ncias}
+% \frame
+% {
+%  \frametitle{Gera��o do Grafo de Depend�ncias}
+%  \framesubtitle{Redu��o dos Grafos de Processo}
+% \begin{itemize}
+%  \item \footnotesize{Aplica��o das regras de composi��o e representa��o do paralelismo:}
+% \end{itemize} 
+%  \resizebox{\textwidth}{!}{%
+% \setlength{\tabcolsep}{5mm} % separator between columns
+% \def\arraystretch{1.25} % vertical stretch factor
+% \begin{tabular}[t]{|b{2cm}|c|c|}
+% \hline
+% \textbf{Padr�o} & \textbf{Exemplo de grafo de processo} & \textbf{Redu��o} \\
+% \hline
+% \hline
+% \vspace{0.2cm}
+% ~\newline~Sequ�ncia\newline~ & \input{fig-slides/loadPG1.tikz} & \input{fig-slides/loadDG1.tikz} \\
+% \hline
+% \vspace{0.2cm}
+% ~\newline~\newline~Disjun��o mutuamente exclusiva\newline~\newline~ & \input{fig-slides/loadPG4.tikz} & \input{fig-slides/loadDG4.tikz} \\
+% \hline
+% \vspace{0.2cm}
+% ~\newline~Conjun��o\newline~\newline~\newline~\newline~ & \input{fig-slides/loadPG3.tikz} & \input{fig-slides/loadDG3.tikz} \\
+% \hline
+% \vspace{0.2cm}
+% ~\newline~Disjun��o\newline~\newline~\newline~\newline~ & \input{fig-slides/loadPG2.tikz} & \input{fig-slides/loadDG2.tikz} \\
+% \hline
+% \end{tabular}
+% }
+% }
+% %-------------------------------------------------------------%
+
+% %-------------------------------------------------------------%
+% \frame 
+% {
+% \frametitle{Gera��o do Grafo de Depend�ncias}
+%  \framesubtitle{Jun��o dos Grafos de Processo e das Restri��es}
+% \begin{myfancyblock}
+% \opaqueblock{1}{visib}{\textwidth}{
+% \inputTikZ{0.35}{./fig-slides/chorOderFulfillment.tikz}
+% \inputTikZ{0.35}{./fig-slides/chorFreightTracking.tikz}
+% }
+% \opaqueblock{2-}{invisib}{\textwidth}{
+% \inputTikZ{0.35}{./fig-slides/chorOderFulfillment.tikz}
+% \inputTikZ{0.35}{./fig-slides/chorFreightTracking.tikz}
+% }
+% 
+% \opaqueblock{2}{visib}{0.6\textwidth}{
+% \inputTikZ{0.35}{./fig-slides/cdg.tikz}
+% }
+% \end{myfancyblock}
+% }
+% %-------------------------------------------------------------%
+
+
+%%-------------------------------------------------------------%
+%\frame
+%{
+% \frametitle{Modelagem de Recursos}
+%\begin{itemize}
+% \item Atributos necess�rios em cada atividade da s�ntese de recursos:
+% \begin{itemize}
+% \item \textcolor{blue}{Estimativa:} capacidade de hardware.
+% \item \textcolor{blue}{Sele��o:} capacidade de hardware e outros atributos (custo, localidade, etc.).
+%\end{itemize}
+%\item Poss�vel grande quantidade de tipos de recurso com intersec��o entre eles.
+%\end{itemize}
+%}
+%%-------------------------------------------------------------%
+
+%-------------------------------------------------------------%
+\frame
+{
+ \frametitle{Modelos Utilizados na Abordagem}
+\begin{block}{Representa��o de:}
+\footnotesize
+\begin{itemize}
+ \item[\textcolor{fg!20}{\textbullet}] \semitransp[20]{{restri��es n�o-funcionais;}}
+ \item[\textcolor{fg!20}{\textbullet}] \semitransp[20]{{coreografias de servi�os;}}
+ \item recursos.
+\end{itemize}
+\end{block} 
+\vspace{0.8cm}
+\begin{itemize}
+ \item Necessidades exploradas na representa��o:
+\begin{itemize}
+ \item[\textcolor{fg!20}{\textbullet}] \semitransp[20]{{Possibilitar a modelagem expl�cita de restri��es n�o-funcionais.}}
+ \item[\textcolor{fg!20}{\textbullet}] \semitransp[20]{{Tornar a abordagem compat�vel com outras linguagens.}}
+ \item[\textcolor{fg!20}{\textbullet}] \semitransp[20]{{Facilitar a identifica��o de depend�ncias entre os servi�os e do impacto de seu compartilhamento.}}
+ \item Diminuir o tempo de processamento da s�ntese.
+\end{itemize}
+\end{itemize}
+}
+%-------------------------------------------------------------%
+
+
+% %-------------------------------------------------------------%
+% \section[\thesection]{S�ntese de Recursos}
+% \frame
+% {
+%  \frametitle{S�ntese de Recursos}
+% \begin{itemize}
+%  \item Formaliza��o do problema de s�ntese de recursos e demonstra��o de sua $\NP$-completude.
+%  \item Solu��o do problema em duas etapas:
+%  \begin{itemize}
+%  \item \textcolor{blue}{Estimativa de recursos:} com base no modelo can�nico de recursos.
+%  \item \textcolor{blue}{Sele��o de recursos:} com base nos modelos can�nico e concreto de recursos.
+% \end{itemize}
+% \item Casos de insucesso s�o tratados em cada uma destas etapas.
+% \end{itemize}
+% }
+% %-------------------------------------------------------------%
+
+
+% %-------------------------------------------------------------%
+% \frame[shrink]
+% {
+%  \frametitle{S�ntese de Recursos}
+%  \framesubtitle{Sele��o de Recursos -- Consolida��o de Recursos}
+% \begin{itemize}
+%  \item Trocas de tipos concretos de recurso considerando a redu��o no atraso de comunica��o.
+% \begin{equation}
+% \scriptsize
+% \text{Ganho na com.}_{\text{(tipo $a$, tipo $b$)}}= \left\{ 
+%   \begin{array}{l l}
+%     \frac{\lambda}{\text{dist�ncia}_{\text{(tipo $a$, tipo $b$)}}} & \quad \text{se dist�ncia} > 0\\%}\\
+%     \lambda & \quad \text{caso contr�rio}
+%   \end{array} \right.
+% \label{eq:ganho}
+% \end{equation}
+% 
+% \begin{equation}
+%  \scriptsize
+% \text{Fator de com.}_a = \frac{\sum_{i=1}^{n}\text{ganho na com.}_{\text{(tipo $a$, tipo $i$)}}}{n}
+% \label{eq:fator}
+% \end{equation}
+% \item Buscas em largura no grafo de depend�ncias a partir dos v�rtices com maior corte, at� que:
+% \begin{itemize}
+%  \item todos os servi�os sejam consolidados; ou
+%  \item o tipo concreto mais robusto seja avaliado; ou
+%  \item todos os servi�os sejam mapeados.
+% \end{itemize}
+% \end{itemize}
+% }
+% %-------------------------------------------------------------%
+
+
+% %-------------------------------------------------------------%
+% \subsection[\textbullet]{Cen�rio de Uso da Arquitetura}
+% \frame
+% {
+% %  \frametitle{Arquitetura e Implementa��o}
+% %  \framesubtitle{Cen�rio de Uso da Arquitetura}
+%  \frametitle{Arquitetura}
+%  \framesubtitle{Cen�rio de Uso da Arquitetura}
+%  \begin{figure}
+%   \centering
+% \includegraphics[width=0.6\textwidth]{./fig-slides/cenarioArquitetura.eps}
+%  \end{figure}
+% }
+% %-------------------------------------------------------------%
+
+% %-------------------------------------------------------------%
+% \subsection[\textbullet]{Implementa��o da Arquitetura}
+% \frame
+% {
+%  \frametitle{Arquitetura e Implementa��o}
+%  \framesubtitle{Implementa��o da Arquitetura}
+%  \begin{itemize}
+%   \item Implementa��o dos componentes relacionados � implanta��o inicial dos servi�os: adapta��o din�mica tratada como trabalho futuro.
+%   \item Especifica��o dos grafos de processo e das restri��es atrav�s de um arquivo XML.
+%   \item Implementa��o da estimativa de lat�ncia e vaz�o usando Teoria de Filas.
+%   \item Quando h� insucesso na estimativa, propomos a inclus�o de apenas uma inst�ncia do servi�o que constitui o gargalo.
+%   \item Uso do componente CHOReOS Enactment Engine para realizar a aloca��o de recursos.
+%  \end{itemize}
+% }
+% %-------------------------------------------------------------%
+
+%-------------------------------------------------------------%
+\section[\thesection]{Avalia��o Experimental}
+\frame
+{
+ \frametitle{Avalia��o Experimental}
+ \begin{itemize}
+  \item Aspectos avaliados:
+  \begin{enumerate}
+   \item Efetividade da s�ntese de recursos.
+%   \begin{itemize}
+%    \item Experimento I: an�lise do impacto de duas t�cnicas utilizadas para redu��o do atraso de comunica��o entre os servi�os. 
+%    \item Experimento II: an�lise da redu��o no custo dos recursos selecionados considerando varia��es no modelo can�nico de recursos.
+%   \end{itemize}
+   \item Tempo da s�ntese de recursos.
+   \item Estabilidade da s�ntese de recursos.
+  \end{enumerate}
+  \item Experimentos com entrada sint�tica.
+ \end{itemize}
+}
+%-------------------------------------------------------------%
+
+% %-------------------------------------------------------------%
+% \subsection[\textbullet]{An�lise Geral dos Resultados}
+% \frame[shrink]
+% {
+%  \frametitle{Avalia��o Experimental}
+%  \framesubtitle{An�lise Geral dos Resultados}
+%  \begin{itemize}
+%  \item Fatores que favorecem a consolida��o de recursos: 
+%  \begin{itemize}
+%   \item carga reduzida;
+%   \item o uso da t�cnica de troca de tipos por localidade;
+%   \item $\Uparrow$ tipos concretos na sele��o de recursos; e 
+%   \item $\Downarrow$ tipos can�nicos na estimativa de recursos. 
+%  \end{itemize}
+%  \item O uso de consolida��o de recursos reduz mais o atraso de comunica��o do que a troca de tipos por localidade.  
+%  \item Quantidade de tipos can�nicos \textit{vs} precis�o na estimativa \textit{vs} consolida��o de recursos.
+%  \item A abordagem de s�ntese obt�m resultado em tempo satisfat�rio e possui comportamento est�vel.
+% \end{itemize}
+% }
+% %-------------------------------------------------------------%
+
+%%-------------------------------------------------------------%
+%\subsection[\textbullet]{Efetividade da s�ntese de recursos}
+%\frame
+%{
+% \frametitle{Avalia��o Experimental}
+% \framesubtitle{Efetividade da s�ntese de recursos -- Experimento I}
+%\begin{block}{Entrada}
+%Coreografias utilizadas como exemplo.
+%\end{block}
+%\begin{block}{Cen�rios}
+%\begin{itemize}
+%\item \textbf{CON+LOC}: Consolida��o de recursos e troca de tipos por localidade.
+%\item \textbf{CON}: Apenas a t�cnica de consolida��o de recursos � utilizada.
+%\item \textbf{LOC}: Apenas a t�cnica de troca de tipos por localidade � utilizada.
+%\item \textbf{NEN}: Nenhuma das t�cnicas propostas � utilizada.
+%\item \textbf{Azure-Brasil}: Apenas recursos do Microsoft Azure no Brasil. Ambas as t�cnicas propostas s�o utilizadas.
+%\end{itemize}
+%\end{block}
+%}
+%%-------------------------------------------------------------%
+
+%%-------------------------------------------------------------%
+%\frame
+%{
+% \frametitle{Avalia��o Experimental}
+% \framesubtitle{Efetividade da s�ntese de recursos -- Experimento I: Inst�ncias}
+%\Wider[4em]{
+%  \centering
+%\includegraphics<1>[width=0.72\textwidth]{./fig-slides/synthesisComparisonInst.eps}
+%}
+%}
+%%-------------------------------------------------------------%
+
+% %-------------------------------------------------------------%
+% \frame
+% {
+%  \frametitle{Avalia��o Experimental}
+%  \framesubtitle{Efetividade da s�ntese de recursos -- Experimento I: Custo}
+% \Wider[4em]{
+%   \centering
+% \includegraphics<1>[width=0.7\textwidth]{./fig-slides/synthesisComparisonCost.eps}
+% }
+% }
+% %-------------------------------------------------------------%
+
+%%-------------------------------------------------------------%
+%\frame
+%{
+% \frametitle{Avalia��o Experimental}
+% \framesubtitle{Efetividade da s�ntese de recursos -- Experimento I: Atraso de comunica��o}
+%\Wider[4em]{
+%  \centering
+%\includegraphics<1>[width=0.72\textwidth]{./fig-slides/synthesisComparisonRTT75.eps}
+%}
+%}
+%%-------------------------------------------------------------%
+
+%-------------------------------------------------------------%
+\subsection[\textbullet]{Efetividade da s�ntese de recursos}
+\frame
+{
+ \frametitle{Avalia��o Experimental: Efetividade da s�ntese de recursos}
+\begin{block}{Entrada}
+Coreografias utilizadas como exemplo: 8 servi�os.
+\end{block}
+ \begin{block}{Cen�rios}
+\begin{itemize}
+\item Quantidade de tipos can�nicos:
+\begin{itemize}
+\item  6
+\item 12
+\item 24
+\item 48
+\item 96
+\end{itemize}
+\end{itemize}
+\end{block}
+}
+%-------------------------------------------------------------%
+
+%-------------------------------------------------------------%
+\section[\thesection]{Considera��es Finais}
+\subsection[\textbullet]{Contribui��es do Trabalho}
+\frame[shrink]
+{
+ \frametitle{Considera��es Finais: Contribui��es do Trabalho}
+\begin{block}{Contribui��o Geral}
+Desenvolvimento de uma abordagem de s�ntese que, devido ao uso de uma ampla variedade de tipos de recursos e � an�lise do compartilhamento de servi�os, realiza a implanta��o eficiente de m�ltiplas coreografias de servi�os. 
+\end{block}
+\begin{block}{Elementos da Contribui��o Geral}
+\begin{enumerate}
+\setlength{\itemsep}{5pt}
+\item Nota��o para representa��o de coreografias de servi�os.
+\item Arcabou�o para a especifica��o de restri��es n�o-funcionais.
+\item Formaliza��o do problema de s�ntese de recursos.
+\item Estrat�gia para estimativa de recursos.
+\item Estrat�gia para consolida��o de recursos.
+\item Arquitetura que considera todas as atividades relacionadas � implanta��o de coreografias de servi�os.
+\end{enumerate}
+\end{block}
+}
+%-------------------------------------------------------------%
+
+% %-------------------------------------------------------------%
+% \subsection[\textbullet]{Trabalhos Futuros}
+% \frame[shrink]
+% {
+%  \frametitle{Considera��es Finais}
+%  \framesubtitle{Trabalhos Futuros}
+% \begin{itemize}
+% \setlength{\itemsep}{5pt}
+% \item Maior n�vel de abstra��o na avalia��o de restri��es n�o-funcionais.
+% \item Prioriza��o de restri��es n�o-funcionais.
+% \item Inclus�o do usu�rio no \textit{loop}.
+% \item Aperfei�oamento da avalia��o de restri��es de QoS.
+% \begin{itemize}
+% \setlength{\itemsep}{5pt}
+% \item Estimativa de QoS.
+% \item Restri��es de QoS sens�veis a localiza��o dos recursos.
+% \item Estabelecimento de SLAs.
+% \end{itemize}
+% \item Aperfei�oamento do modelo de recursos.
+% \item An�lise dos efeitos do compartilhamento de recursos.
+% \item Adapta��o din�mica.
+% \item Expans�o da abordagem para outros componentes da pilha de software.
+% \item Descentraliza��o da arquitetura.
+% \item Adequa��o para o estilo arquitetural de microservi�os.
+% \end{itemize}
+% 
+% }
+% %-------------------------------------------------------------%
+
+
+\appendix
+\backupbegin
+
+\backupend
+
+\end{document}
