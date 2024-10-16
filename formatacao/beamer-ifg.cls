@@ -24,6 +24,9 @@
 %%==================================================================
 % v1.0 : 15 nov 2023 ---------------------------------------------------------------------------
 % - Primeira versão da beamer-ifg
+% v1.1 : 16 out 2024 ---------------------------------------------------------------------------
+% - Subseções colocadas como bullet
+% - Logo do mestrado como padrão
 
 %%==================================================================
 %% classe-ifg Class Options
@@ -225,8 +228,12 @@
 \setbeamercolor{section in toc}{fg=ifgColor} % TOC sections
 % Override palette coloring with secondary
 \setbeamercolor{subsection in head/foot}{bg=UBCgrey,fg=white}
-\pgfdeclareimage[height=1.0cm]{logoIFG}{formatacao/logoifg}
-\logo{\pgfuseimage{logoIFG}}
+\ifthenelse{\boolean{diss} \OR \boolean{qualm}}{
+	\pgfdeclareimage[height=1.0cm]{logo}{formatacao/logoMTGS}
+}{
+	\pgfdeclareimage[height=1.0cm]{logo}{formatacao/logoifg}
+}
+\logo{\pgfuseimage{logo}}
 \expandafter\def\expandafter\insertshorttitle\expandafter{%
   \insertshorttitle\hfill%
   \insertframenumber\,/\,\inserttotalframenumber}
@@ -288,6 +295,12 @@
 }
 \newcommand{\backupend}{
    \setcounter{framenumber}{\value{finalframe}}
+}
+
+% Bolas para subseções
+\setbeamertemplate{subsection in head/foot}{%
+  \leavevmode%
+  \textbullet\ \par%
 }
 
 \def\titulo#1{\def\ctitulo{#1}}                 \titulo{}
@@ -401,7 +414,8 @@
 %% - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 \newcommand{\sumario}{
 	\begin{frame}
-		\tableofcontents
+		\frametitle{Agenda}
+		\tableofcontents[hideallsubsections]
 	\end{frame}
 }
 
@@ -411,6 +425,7 @@
 \RequirePackage{makecell}
 \RequirePackage{multirow}
 \RequirePackage{longtable}
+\RequirePackage[portuguese]{babel}
 \renewcommand\theadalign{cb}
 \renewcommand\theadfont{\scriptsize}
 \renewcommand\theadgape{\Gape[0.5pt]}
